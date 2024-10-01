@@ -1,0 +1,96 @@
+﻿@model Login.Models.User
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="my-lg-14 my-8">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
+                <img src="https://media.loveitopcdn.com/3807/thumb/logo-nong-san-nha-que-compressed.jpg" alt="Signup Image" class="img-fluid">
+            </div>
+            <div class="col-12 col-md-6 offset-lg-1 col-lg-5 order-lg-2 order-1 signup-container">
+                <div class="mb-lg-9 mb-5 text-center">
+                    <h1 class="mb-1 h2 fw-bold">Đăng ký</h1>
+                    <p>Chào mừng các bạn đến với <span class="text-primary">Vườn Nông Sản Tươi Ngon!</span></p>
+                </div>
+                @using (Html.BeginForm("Dangky", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation", novalidate = "novalidate" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            @Html.EditorFor(model => model.ho, new { htmlAttributes = new { @class = "form-control", placeholder = "Họ", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.ho, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-12 col-md-6">
+                            @Html.EditorFor(model => model.ten, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.ten, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-12">
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "Email", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-12">
+                            <div class="password-field">
+                                @Html.PasswordFor(model => model.password, new { @class = "form-control", placeholder = "Mật khẩu", required = "required" })
+                                <span class="toggle-password bi bi-eye-slash" onclick="togglePassword()"></span>
+                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control", type = "tel", placeholder = "Số điện thoại", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-12">
+                            <label for="avatar">Avatar:</label>
+                            <input type="file" id="avatar" name="avatar" accept="image/*" class="form-control-file">
+                            @Html.ValidationMessageFor(model => model.avatar, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-12 d-grid">
+                            <button type="submit" class="btn btn-custom">Đăng ký</button>
+                        </div>
+                    </div>
+                }
+                <p class="mt-4 text-center">
+                    <small>Bằng cách tiếp tục, bạn đồng ý với <a href="#!" class="link-primary">Điều khoản dịch vụ</a> &amp; <a href="#!" class="link-primary">Chính sách quyền riêng tư</a> của chúng tôi</small>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function togglePassword() {
+            const passwordInput = document.querySelector('input[name="password"]');
+            const toggleIcon = document.querySelector('.toggle-password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.replace('bi-eye-slash', 'bi-eye');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.replace('bi-eye', 'bi-eye-slash');
+            }
+        }
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}
